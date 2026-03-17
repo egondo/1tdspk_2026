@@ -5,5 +5,9 @@ public class Resposta {
         private Pergunta questao;
         private Usuario usuario;
 
+        //completar com os métodos acessores
+
+        //construtor e modificar a classe ProjetoOO preenchendo
+        //os atributos dos objetos
 
 }
