@@ -18,6 +18,5 @@ public class Projeto {
         String dificuldade = tec.nextLine();
 
         System.out.println(nome + classeObjeto);
-
     }
 }
