@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/1tdspk_2026.iml" filepath="$PROJECT_DIR$/1tdspk_2026.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CampeonatoFutebol/CampeonatoFutebol.iml" filepath="$PROJECT_DIR$/CampeonatoFutebol/CampeonatoFutebol.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Ecommerce/Ecommerce.iml" filepath="$PROJECT_DIR$/Ecommerce/Ecommerce.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ElementosJava/ElementosJava.iml" filepath="$PROJECT_DIR$/ElementosJava/ElementosJava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ExemplosObjeto/ExemplosObjeto.iml" filepath="$PROJECT_DIR$/ExemplosObjeto/ExemplosObjeto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Jogatina/Jogatina.iml" filepath="$PROJECT_DIR$/Jogatina/Jogatina.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JogoDados/JogoDados.iml" filepath="$PROJECT_DIR$/JogoDados/JogoDados.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Jokenpo/Jokenpo.iml" filepath="$PROJECT_DIR$/Jokenpo/Jokenpo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ListaExercicios/ListaExercicios.iml" filepath="$PROJECT_DIR$/ListaExercicios/ListaExercicios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ModeloEntregaCheckpoint/ModeloEntregaCheckpoint.iml" filepath="$PROJECT_DIR$/ModeloEntregaCheckpoint/ModeloEntregaCheckpoint.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProjetoEnquete/ProjetoEnquete.iml" filepath="$PROJECT_DIR$/ProjetoEnquete/ProjetoEnquete.iml" />
+    </modules>
+  </component>
+</project>
