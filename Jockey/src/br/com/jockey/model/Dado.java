@@ -1,7 +1,7 @@
 package br.com.jockey.model;
 
 public class Dado {
-    
+
     //atributos --- comentario
     private int faces;
 
