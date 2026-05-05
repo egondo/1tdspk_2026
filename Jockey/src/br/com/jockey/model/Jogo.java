@@ -7,7 +7,7 @@ public class Jogo {
     private Jogador cao;
     private Jogador carro;
 
-    private Dado dado;
+    private Dado dado = new Dado();
 
     public Jogo(Jogador ferradura, Jogador torre) {
         this.ferradura = ferradura;
@@ -26,29 +26,44 @@ public class Jogo {
 
     public boolean vencedor(Jogador j) {
         if (j != null) {
-            if (j.getPosicao() == 72) {
+            if (j.getPosicao() >= 72) {
                 return true;
             }
         }
         return false;
     }
 
-    public void jogada(Jogador j, int pts) {
+    public String jogada(Jogador j) {
+        String info = "";
+        int pts = dado.lancar();
         if (j != null) {
+            if (j.getPosicao() == 0)
+                return "saiu do jogo";
             int posicao = j.getPosicao() + pts;
-            if (posicao == 18)
+            if (posicao == 18) {
                 j.setPosicao(12);
-            else if (posicao == 31)
+                info = "volta para 12";
+            }
+            else if (posicao == 31) {
                 j.setPosicao(1);
-            else if (posicao == 44)
+                info = "volta para o início";
+            }
+            else if (posicao == 44) {
                 j.setPosicao(posicao + pts);
-            else if (posicao == 53)
-                System.out.println("Perca duas rodadas!");
-            else if (posicao == 62)
+                info = "avança 2x a quantidade de pontos do dado";
+            }
+            else if (posicao == 53) {
+                info = "perde duas rodadas!";
+                j.perdeDuasRodadas();
+            }
+            else if (posicao == 62) {
+                info = "saiu do jogo";
                 j.setPosicao(0);
+            }
             else
                 j.setPosicao(posicao);
         }
+        return info;
     }
 
 
