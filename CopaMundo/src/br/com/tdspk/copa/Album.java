@@ -52,20 +52,25 @@ public class Album {
             figurinhas.set(pos, chromo);
     }
 
+    //TODO Melhorias
+    //criar métodos que retornem a lista de figurinhas disponiveis para troca
+    //e lista de figurinhas que faltam
+    //procurar na internet os metadados das figurinhas e já instanciar todas as figurinhas com
+    //essas informações, daí quando precisamos adicionar uma figurinha no album é uma questão
+    //de acertar a quantidade.
+
+    //Trocar/adicionar atributos nas figurinhas
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+    public void imprime() {
+        for (Figurinha f : figurinhas) {
+            if (f.getQuantidade() > 0) {
+                System.out.println(f.getNumero() + " " + f.getDescricao());
+                System.out.println("QTD: " + f.getQuantidade());
+                System.out.println("=============");
+            }
+        }
+    }
 }
 
 
