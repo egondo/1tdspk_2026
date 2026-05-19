@@ -29,6 +29,13 @@ public class Jogador {
         return pontos;
     }
 
+    public boolean querCartaCpu() {
+        if (this.getPontos() < 16)
+            return true;
+        else
+            return false;
+    }
+
     public boolean querCarta() {
         for(Carta c : mao) {
             System.out.print(c + " ");

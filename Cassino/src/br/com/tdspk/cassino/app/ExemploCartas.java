@@ -32,5 +32,8 @@ public class ExemploCartas {
 
         JOptionPane.showMessageDialog(null,
                 "\uD83C\uDCA1 \uD83C\uDCA2 \uD83C\uDCAA");
+
+        int resp = JOptionPane.showConfirmDialog(null, "\uD83C\uDCA1 \uD83C\uDCA2 \uD83C\uDCAA", "Quer carta?", JOptionPane.YES_NO_OPTION);
+        JOptionPane.showMessageDialog(null, resp);
     }
 }
