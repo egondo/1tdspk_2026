@@ -29,11 +29,15 @@ public class Aplicacao {
         f2.setMontadora("Honda");
         f2.setModelo("HE4542");
 
+        Carro passeio = new Carro("Polo", "Volkswagen", 1.6, 176);
+
         List<Carro> garagem = new ArrayList<>();
         garagem.add(c);
         garagem.add(f);
         garagem.add(f2);
         //garagem.add("Fiat Uno, 1.5: 145");
+        garagem.add(passeio);
+
         for(Carro carro : garagem) {
             System.out.println(carro.getMontadora() + " " + carro.getModelo());
         }

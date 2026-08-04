@@ -2,6 +2,18 @@ package br.com.fiap.heranca.model;
 
 public class Carro {
 
+    public Carro(String modelo, String montadora, double motor, int velocidadeMaxima) {
+        this.modelo = modelo;
+        this.montadora = montadora;
+        this.motor = motor;
+        this.velocidadeMaxima = velocidadeMaxima;
+    }
+
+    @Deprecated   //anotacao que adiciona uma informacao aos membros da classe: esse metodo um dia pode sair da implementacao de carro
+    public Carro(){
+        //System.out.println("Instanciou um novo objeto");
+    }
+
     private String modelo;
     private String montadora;
     private double motor;
