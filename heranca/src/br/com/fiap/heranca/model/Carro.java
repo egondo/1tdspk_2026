@@ -55,4 +55,8 @@ public class Carro {
 
     public void brecar(int intensidade) {}
 
+    public String toString() {
+        return modelo + " " + montadora + " Motor: " + motor;
+    }
+
 }

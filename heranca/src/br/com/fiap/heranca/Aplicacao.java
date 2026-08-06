@@ -39,7 +39,9 @@ public class Aplicacao {
         garagem.add(passeio);
 
         for(Carro carro : garagem) {
-            System.out.println(carro.getMontadora() + " " + carro.getModelo());
+            //System.out.println(carro.getMontadora() + " " + carro.getModelo());
+            //Teste do metodo toString
+            System.out.println(carro);
         }
     }
 }
