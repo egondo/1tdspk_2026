@@ -9,6 +9,8 @@ public class Paciente {
     private String telefone;
     private LocalDate nascimento;
 
+    private Endereco endereco;
+
     public Paciente(long id, String nome, String telefone, LocalDate nascimento) {
         this.id = id;
         this.nome = nome;
@@ -49,5 +51,13 @@ public class Paciente {
 
     public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }
