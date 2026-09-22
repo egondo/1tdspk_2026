@@ -3,6 +3,7 @@ package br.com.fiap.taskmanager.service;
 import br.com.fiap.taskmanager.model.Prioridade;
 import br.com.fiap.taskmanager.model.Status;
 import br.com.fiap.taskmanager.model.Task;
+import br.com.fiap.taskmanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,6 +13,12 @@ import java.util.List;
 @Service
 public class TaskService {
 
+    private TaskRepository repositorio;
+
+    public TaskService(TaskRepository repositorio) {
+        this.repositorio = repositorio;
+    }
+
     public Task save(Task tarefa) {
         //RN 5
         LocalDate agora = LocalDate.now();
@@ -19,7 +26,7 @@ public class TaskService {
             throw new RuntimeException("Data de entrega da tarefa não pode ser maior que agora!");
 
         tarefa.setCriacao(LocalDateTime.now());
-        //repositorio chamo o metodo save
+        repositorio.save(tarefa);
         return tarefa;
     }
 
@@ -29,11 +36,15 @@ public class TaskService {
             throw new RuntimeException("ID incorreto " + tarefa.getId());
 
         //RN 10 - nao posso alterar uma tarefa com status FINALIZADA
-        //Task original = repositorio.getById(tarefa.getId());
-        //if (original.getStatus() == Status.FINALIZADA)
-        //  throw new RuntimeException("Tarefa já finalizada");
+        Task original = repositorio.getById(tarefa.getId());
+        if (original != null && original.getStatus() == Status.FINALIZADA)
+            throw new RuntimeException("Tarefa já finalizada");
 
-        //repositorio.update(tarefa);
+        //RN 11 - na hora de atualizar uma tarefa, ela deve existir no banco
+        if (original == null)
+            throw new RuntimeException("Tarefa inexistente " + tarefa.getId());
+
+        repositorio.update(tarefa);
         return tarefa;
     }
 
