@@ -3,11 +3,14 @@ package br.com.fiap.taskmanager.repository;
 import br.com.fiap.taskmanager.model.Prioridade;
 import br.com.fiap.taskmanager.model.Status;
 import br.com.fiap.taskmanager.model.Task;
+import org.jspecify.annotations.NonNull;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class TaskRepository {
@@ -49,16 +52,7 @@ public class TaskRepository {
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                resultado = new Task();
-                resultado.setId(rs.getLong("idtask"));
-                resultado.setTitulo(rs.getString("titulo"));
-                resultado.setDescricao(rs.getString("descricao"));
-                resultado.setData(rs.getDate("data").toLocalDate());
-                String p = rs.getString("prioridade");
-                resultado.setPrioridade(Prioridade.valueOf(p));
-                String s = rs.getString("status");
-                resultado.setStatus(Status.valueOf(s));
-                resultado.setCriacao(rs.getTimestamp("criacao").toLocalDateTime());
+                resultado = getTask(rs);
             }
         }
         catch (SQLException e) {
@@ -74,4 +68,86 @@ public class TaskRepository {
     }
 
 
+    public List<Task> getByPrioridade(Prioridade prioridade) {
+        String sql = "SELECT idtask, titulo, descricao, data, prioridade, status, criacao FROM task WHERE prioridade = ?";
+        Connection con = DataSourceUtils.getConnection(dataSource);
+        List<Task> resultado = new ArrayList<>();
+        try(PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setString(1, prioridade.name());
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Task t = getTask(rs);
+                resultado.add(t);
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Erro na consulta por id", e);
+        }
+        finally {
+            DataSourceUtils.releaseConnection(con, dataSource);
+        }
+        return resultado;
+    }
+
+    public List<Task> getByStatus(Status status) {
+        String sql = "SELECT idtask, titulo, descricao, data, prioridade, status, criacao FROM task WHERE status = ?";
+        Connection con = DataSourceUtils.getConnection(dataSource);
+        List<Task> resultado = new ArrayList<>();
+        try(PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, status.name());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Task t = getTask(rs);
+                resultado.add(t);
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Erro na consulta por status", e);
+        }
+        finally {
+            DataSourceUtils.releaseConnection(con, dataSource);
+        }
+        return resultado;
+    }
+
+
+    private static @NonNull Task getTask(ResultSet rs) throws SQLException {
+        Task t = new Task();
+        t.setId(rs.getLong("idtask"));
+        t.setTitulo(rs.getString("titulo"));
+        t.setDescricao(rs.getString("descricao"));
+        t.setData(rs.getDate("data").toLocalDate());
+        String p = rs.getString("prioridade");
+        t.setPrioridade(Prioridade.valueOf(p));
+        String s = rs.getString("status");
+        t.setStatus(Status.valueOf(s));
+        t.setCriacao(rs.getTimestamp("criacao").toLocalDateTime());
+        return t;
+    }
+
+    public List<Task> getByPrioridadeStatus(Prioridade prioridade, Status status) {
+        String sql = "SELECT idtask, titulo, descricao, data, prioridade, status, criacao FROM task WHERE status = ? and prioridade = ?";
+        Connection con = DataSourceUtils.getConnection(dataSource);
+        List<Task> resultado = new ArrayList<>();
+        try(PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, status.name());
+            pstmt.setString(2, prioridade.name());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Task t = getTask(rs);
+                resultado.add(t);
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Erro na consulta por status", e);
+        }
+        finally {
+            DataSourceUtils.releaseConnection(con, dataSource);
+        }
+        return resultado;
+    }
+
 }
+

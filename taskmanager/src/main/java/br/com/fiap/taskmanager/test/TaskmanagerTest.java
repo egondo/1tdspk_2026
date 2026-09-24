@@ -8,6 +8,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class TaskmanagerTest {
@@ -21,20 +22,19 @@ public class TaskmanagerTest {
     @PostConstruct
     public void executaTeste() {
         Task t = new Task();
-        t.setTitulo("Corrigir o checkpoint que vcs vao entregar no dia");
-        t.setDescricao("Corrigir o mais rapido possivel");
-        t.setData(LocalDate.now().plusDays(1));
-        t.setPrioridade(Prioridade.ALTA);
-        t.setStatus(Status.ABERTA);
+        t.setTitulo("Global Solution");
+        t.setDescricao("Pensar na solucao que sera implementada na GS");
+        t.setData(LocalDate.now().plusDays(40));
+        t.setPrioridade(Prioridade.BAIXA);
+        t.setStatus(Status.ANDAMENTO);
 
-        //taskService.save(t);
+        taskService.save(t);
         System.out.println("Tarefa cadastrada no banco de dados");
 
-        Task consulta = taskService.getById(21);
-        System.out.println(consulta.getTitulo());
-        System.out.println(consulta.getDescricao());
-        System.out.println(consulta.getData());
-
+        List<Task> tarefas = taskService.getByParametros(Prioridade.MEDIA, null);
+        for(Task task : tarefas) {
+            System.out.println(task.getTitulo() + " " + task.getData() + " " + task.getPrioridade());
+        }
 
     }
 }
