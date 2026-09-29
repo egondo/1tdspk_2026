@@ -45,6 +45,7 @@ public class TaskRepository {
         String sql = "SELECT idtask, titulo, descricao, data, prioridade, status, criacao FROM task WHERE idtask = ?";
         Connection con = DataSourceUtils.getConnection(dataSource);
         Task resultado = null;
+        System.out.println("Vai executar o repository");
         try(PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -59,6 +60,7 @@ public class TaskRepository {
                 String s = rs.getString("status");
                 resultado.setStatus(Status.valueOf(s));
                 resultado.setCriacao(rs.getTimestamp("criacao").toLocalDateTime());
+                System.out.println("Passou preenchendo o objeto resultado");
             }
         }
         catch (SQLException e) {

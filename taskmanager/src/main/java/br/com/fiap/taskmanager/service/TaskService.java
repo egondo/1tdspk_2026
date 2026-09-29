@@ -49,7 +49,7 @@ public class TaskService {
     }
 
     public Task getById(long id) {
-        return null;
+        return repositorio.getById(id);
     }
 
     public List<Task> getAll() {
