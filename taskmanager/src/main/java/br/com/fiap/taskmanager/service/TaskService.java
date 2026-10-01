@@ -57,6 +57,15 @@ public class TaskService {
     }
 
     public List<Task> getByParametros(Prioridade prioridade, Status status) {
-        return null;
+        if (prioridade == null && status == null)
+            throw new RuntimeException("Nao foi passado prioridade e nem status");
+
+        if (prioridade != null && status == null)
+            return repositorio.getByPrioridade(prioridade);
+        else if (prioridade == null && status != null)
+            return repositorio.getByStatus(status);
+        else
+            return repositorio.getByPrioridadeStatus(prioridade, status);
+
     }
 }
