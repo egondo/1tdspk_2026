@@ -1,6 +1,9 @@
 package br.com.fiap.taskmanager.controller;
 
 import br.com.fiap.taskmanager.controller.dto.TaskDto;
+import br.com.fiap.taskmanager.controller.dto.TaskMapper;
+import br.com.fiap.taskmanager.model.Task;
+import br.com.fiap.taskmanager.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,23 +13,41 @@ import java.time.LocalDate;
 @RequestMapping("/api/v1/tasks")
 public class TaskResource {
 
+    private TaskService service;  //instanciado atraves de injecao de dependencia
 
-    @GetMapping
-    public ResponseEntity<?> getTask() {
-        TaskDto dto = new TaskDto(23, LocalDate.now(), "Aprender API REST", "Aprendizado de API REST é importante nos dias de hoje. Use Spring Framework para executar/implementar suas APIs", "ALTA", "ABERTA", "29/09/2026 09:20");
+    public TaskResource(TaskService service) {
+        this.service = service;
+    }
 
-        return ResponseEntity.ok(dto);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTask(@PathVariable long id) {
+        Task tarefa = null;
+
+        try {
+            tarefa = service.getById(id);
+        } catch (Exception e) {
+            //gravar o erro no sistema de log
+            e.printStackTrace();
+            return ResponseEntity.status(404).body("Aconteceu um erro no sistema");
+        }
+        if (tarefa == null) {
+            return ResponseEntity.status(404).body("Task com id " + id + " não encontrado");
+        }
+        TaskDto retorno = TaskMapper.entityToDto(tarefa);
+
+        return ResponseEntity.ok(retorno);
     }
 
 
     @PostMapping
     public ResponseEntity<?> criarTask(@RequestBody TaskDto task) {
-        System.out.println("DTO RECEBIDA " + task);
-        return ResponseEntity.status(201).body("Task criada com sucesso!");
+        System.out.println(task);
+        Task tarefa = TaskMapper.dtoToEntity(task);
+        try {
+            service.save(tarefa);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+        return ResponseEntity.status(201).body("/api/v1/tasks/" + tarefa.getId());
     }
-
-
-
-
-
 }

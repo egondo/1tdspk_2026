@@ -53,7 +53,6 @@ public class TaskRepository {
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-<<<<<<< HEAD
                 resultado = new Task();
                 resultado.setId(rs.getLong("idtask"));
                 resultado.setTitulo(rs.getString("titulo"));
@@ -65,9 +64,7 @@ public class TaskRepository {
                 resultado.setStatus(Status.valueOf(s));
                 resultado.setCriacao(rs.getTimestamp("criacao").toLocalDateTime());
                 System.out.println("Passou preenchendo o objeto resultado");
-=======
                 resultado = getTask(rs);
->>>>>>> 80b5a44e8f837f8e98e716ee417d1fa48d835b00
             }
         }
         catch (SQLException e) {

@@ -9,12 +9,9 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-<<<<<<< HEAD
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-=======
 import java.util.List;
->>>>>>> 80b5a44e8f837f8e98e716ee417d1fa48d835b00
 
 @Component
 public class TaskmanagerTest {
@@ -25,9 +22,8 @@ public class TaskmanagerTest {
         this.taskService = taskService;
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void executaTeste() {
-<<<<<<< HEAD
 
         Task consulta = taskService.getById(21);
         //System.out.println(consulta.getTitulo());
@@ -42,7 +38,7 @@ public class TaskmanagerTest {
         TaskDto dto = new TaskDto(c.getId(), c.getData(), c.getTitulo(), c.getDescricao(), c.getPrioridade().name(), c.getStatus().name(), criacaoFormatada);
 
         System.out.println(dto);
-=======
+
         Task t = new Task();
         t.setTitulo("Global Solution");
         t.setDescricao("Pensar na solucao que sera implementada na GS");
@@ -57,7 +53,6 @@ public class TaskmanagerTest {
         for(Task task : tarefas) {
             System.out.println(task.getTitulo() + " " + task.getData() + " " + task.getPrioridade());
         }
->>>>>>> 80b5a44e8f837f8e98e716ee417d1fa48d835b00
 
     }
 }
