@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastra Task</title>
+    <style>
+        /* Estilos gerais da página */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        /* Título da página */
+        h3 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Container do formulário */
+        #form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        /* Parágrafos como rótulos */
+        p {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* Campos de texto, data e área de texto */
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        /* Efeito de foco nos campos */
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Alinhamento dos botões de rádio */
+        input[type="radio"] {
+            margin-right: 8px;
+            margin-top: 8px;
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+
+        /* Botão de Envio */
+        #bt_enviar {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        #bt_enviar:hover {
+            background-color: #2980b9;
+        }
+
+        #bt_enviar:active {
+            transform: scale(0.98);
+        }
+
+        /* Caixa de Resultado */
+        #resultado {
+            margin-top: 25px;
+            width: 100%;
+            max-width: 450px;
+            background-color: #1e272e;
+            color: #2ecc71;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            white-space: pre-wrap; /* Mantém a formatação do JSON */
+            box-sizing: border-box;
+            display: none; /* Fica oculto até ter conteúdo */
+        }
+
+        /* Mostra a caixa de resultado quando não estiver vazia */
+        #resultado:not(:empty) {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<h3>Cadastro de Task</h3>
+<form id="form">
+    <p>Título: <br><input type="text" name="titulo" id="titulo"/></p>
+    <p>Descricao: <br><textarea name="descricao" id="descricao"></textarea></p>
+    <p>Data de conclusão: <br><input type="date" name="data" id="data" /></p>
+    <p>Prioridade:
+        <br/><input type="radio" name="prioridade" id="prio_alta" value="ALTA" /> Alta
+        <br/><input type="radio" name="prioridade" id="prio_media" value="MEDIA" /> Média
+        <br/><input type="radio" name="prioridade" id="prio_baixa" value="BAIXA" /> Baixa
+    </p>
+    <p>Status:
+        <br/><input type="radio" name="status" id="st_aberta" value="ABERTA" /> Aberta
+        <br/><input type="radio" name="status" id="st_andamento" value="ANDAMENTO" /> Andamento
+        <br/><input type="radio" name="status" id="st_finalizada" value="FINALIZADA" /> Finalizada
+    </p>
+    <p><input type="button" name="enviar" value="enviar" id="bt_enviar" /></p>
+</form>
+<div id="resultado"></div>
+</body>
+<script type="text/javascript">
+    async function enviarDados(dados) {
+        try {
+            const resposta = await fetch('http://localhost:8080/api/v1/tasks', {
+                         method: 'POST',
+                         headers: {'Content-Type': 'application/json'},
+                         body: JSON.stringify(dados)
+            })
+            if (!resposta.ok) {
+                  throw new Error(`Erro na requisição: ${resposta.status}`)
+            }
+            const resultado = await resposta.json()
+            return resultado
+        } catch (erro) {
+            console.error('Falha ao enviar:', erro);
+            // Mostrar o erro na tela para melhor feedback
+            document.getElementById('resultado').innerHTML = 'Falha ao enviar: ' + erro.message;
+        }
+    }
+
+    const botao = document.getElementById("bt_enviar")
+    botao.addEventListener('click', () => {
+        const dados = {}
+        dados['titulo'] = document.getElementById('titulo').value
+        dados['descricao'] = document.getElementById('descricao').value
+        dados['status'] = document.querySelector('input[name="status"]:checked')?.value
+        dados['prioridade'] = document.querySelector('input[name="prioridade"]:checked')?.value
+        dados['data'] = document.getElementById('data').value
+
+        const div = document.getElementById('resultado')
+        // Mostrar um status de carregamento
+        div.innerHTML = "Enviando dados...";
+
+        enviarDados(dados)
+            .then(resposta => {
+                if (resposta) {
+                    div.innerHTML = JSON.stringify(resposta, null, 2);
+                }
+            });
+    })
+</script>
+</html>
