@@ -25,30 +25,38 @@
     <div id="resultado"></div>
 </body>
 <script type="text/javascript">
+    async function enviarDados(dados) {
+        try {
+            const resposta = await fetch('http://localhost:8080/api/v1/tasks', {
+                         method: 'POST',
+                         headers: {'Content-Type': 'application/json'},
+                         body: JSON.stringify(dados)
+            })
+            if (!resposta.ok) {
+                  throw new Error(`Erro na requisição: ${resposta.status}`)
+            }
+            const resultado = await resposta.json()
+            return resultado
+        } catch (erro) {
+            console.error('Falha ao enviar:', erro);
+        }
+    }
+
     botao = document.getElementById("bt_enviar")
     botao.addEventListener('click', () => {
-        console.log("Clicou no botão")
-        //recuperar as informaçoes e montar o json e enviar para o meu rest
         dados = {}
-        dados['titulo'] = 'Criando chamada de Teste'
-        dados['descricao'] = 'Testando o erro de CORS'
-        dados['status'] = 'ANDAMENTO'
-        dados['prioridade'] = 'BAIXA'
-        dados['data'] = '2026-10-07'
-
-        fetch('http://localhost:8080/api/v1/tasks', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(dados)
-        })
-        .then(resposta => {
-            if (!resposta.ok) 
-                throw new Error(`Erro: ${resposta.status}`)
-            
-            document.getElementById("resultado").innerHTML = resposta.text
-        })
-        .then(resultado => console.log('Sucesso:', resultado))
-        .catch(erro => console.error('Falha ao enviar:', erro))
+        dados['titulo'] = document.getElementById('titulo').value
+        dados['descricao'] = document.getElementById('descricao').value
+        dados['status'] = document.querySelector('input[name="status"]:checked')?.value
+        dados['prioridade'] = document.querySelector('input[name="prioridade"]:checked')?.value
+        dados['data'] = document.getElementById('data').value
+        const div = document.getElementById('resultado')
+        enviarDados(dados)
+            .then(resposta => {
+                if (resposta) {
+                    div.innerHTML = JSON.stringify(resposta, null, 2);
+                }
+            });
     })
 </script>
 </html>

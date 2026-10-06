@@ -47,8 +47,10 @@ public class TaskResource {
         try {
             service.save(tarefa);
         } catch (Exception e) {
-            return ResponseEntity.status(404).body(e.getMessage());
+            RespostaJson rj = new RespostaJson("Erro na inclusao de Task", e.getMessage(), 404);
+            return ResponseEntity.status(404).body(rj);
         }
-        return ResponseEntity.status(201).body("/api/v1/tasks/" + tarefa.getId());
+        RespostaJson rj = new RespostaJson("Cadastrado com sucesso", "/api/v1/tasks/" + tarefa.getId(), 201);
+        return ResponseEntity.status(201).body(rj);
     }
 }
