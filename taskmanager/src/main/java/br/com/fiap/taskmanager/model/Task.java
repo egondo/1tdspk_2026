@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class Task {
 
-    private long id;
+    private Long id;
     private String titulo;
     private String descricao;
     private LocalDate data;
@@ -16,11 +16,11 @@ public class Task {
 
     private Status status;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

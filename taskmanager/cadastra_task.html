@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastra Task</title>
+</head>
+<body>
+    <h3>Cadastro de Task</h3>
+    <form id="form">
+        <p>Título: <input type="text" name="titulo" id="titulo"/></p>
+        <p>Descricao: <textarea name="descricao" id="descricao"></textarea></p>
+        <p>Data de conclusão: <input type="date" name="data" id="data" /></p>
+        <p>Prioridade:
+            <br/><input type="radio" name="prioridade" id="prio_alta" value="ALTA" /> Alta
+            <br/><input type="radio" name="prioridade" id="prio_media" value="MEDIA" /> Média
+            <br/><input type="radio" name="prioridade" id="prio_baixa" value="BAIXA" /> Baixa
+        </p>
+        <p>Status:
+            <br/><input type="radio" name="status" id="st_aberta" value="ABERTA" /> Aberta
+            <br/><input type="radio" name="status" id="st_andamento" value="ANDAMENTO" /> Andamento
+            <br/><input type="radio" name="status" id="st_finalizada" value="FINALIZADA" /> Finalizada
+        </p>
+        <p><input type="button" name="enviar" value="enviar" id="bt_enviar"  /></p>
+    </form>
+    <div id="resultado"></div>
+</body>
+<script type="text/javascript">
+    botao = document.getElementById("bt_enviar")
+    botao.addEventListener('click', () => {
+        console.log("Clicou no botão")
+        //recuperar as informaçoes e montar o json e enviar para o meu rest
+        dados = {}
+        dados['titulo'] = 'Criando chamada de Teste'
+        dados['descricao'] = 'Testando o erro de CORS'
+        dados['status'] = 'ANDAMENTO'
+        dados['prioridade'] = 'BAIXA'
+        dados['data'] = '2026-10-07'
+
+        fetch('http://localhost:8080/api/v1/tasks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dados)
+        })
+        .then(resposta => {
+            if (!resposta.ok) 
+                throw new Error(`Erro: ${resposta.status}`)
+            
+            document.getElementById("resultado").innerHTML = resposta.text
+        })
+        .then(resultado => console.log('Sucesso:', resultado))
+        .catch(erro => console.error('Falha ao enviar:', erro))
+    })
+</script>
+</html>

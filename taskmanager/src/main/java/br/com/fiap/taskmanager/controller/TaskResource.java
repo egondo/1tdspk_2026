@@ -11,6 +11,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
+@CrossOrigin(origins = "*")
 public class TaskResource {
 
     private TaskService service;  //instanciado atraves de injecao de dependencia
