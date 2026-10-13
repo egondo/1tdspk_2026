@@ -53,7 +53,7 @@ public class TaskService {
     }
 
     public List<Task> getAll() {
-        return null;
+        return repositorio.getByStatus(Status.ABERTA);
     }
 
     public List<Task> getByParametros(Prioridade prioridade, Status status) {
