@@ -75,18 +75,6 @@ public class TaskResource {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     @PostMapping
     public ResponseEntity<?> criarTask(@RequestBody TaskDto task) {
         System.out.println(task);
