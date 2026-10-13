@@ -1,0 +1,12 @@
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/TaskmanagerApplication.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/controller/HelloResource.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/controller/RespostaJson.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/controller/TaskResource.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/controller/dto/TaskDto.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/controller/dto/TaskMapper.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/model/Prioridade.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/model/Status.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/model/Task.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/repository/TaskRepository.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/service/TaskService.java
+/Users/eduardogondo/Downloads/1tdspk_2026/taskmanager/src/main/java/br/com/fiap/taskmanager/test/TaskmanagerTest.java

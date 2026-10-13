@@ -1,0 +1,12 @@
+br/com/fiap/taskmanager/model/Prioridade.class
+br/com/fiap/taskmanager/repository/TaskRepository.class
+br/com/fiap/taskmanager/controller/HelloResource.class
+br/com/fiap/taskmanager/controller/dto/TaskDto.class
+br/com/fiap/taskmanager/model/Status.class
+br/com/fiap/taskmanager/TaskmanagerApplication.class
+br/com/fiap/taskmanager/controller/dto/TaskMapper.class
+br/com/fiap/taskmanager/service/TaskService.class
+br/com/fiap/taskmanager/controller/RespostaJson.class
+br/com/fiap/taskmanager/test/TaskmanagerTest.class
+br/com/fiap/taskmanager/model/Task.class
+br/com/fiap/taskmanager/controller/TaskResource.class
