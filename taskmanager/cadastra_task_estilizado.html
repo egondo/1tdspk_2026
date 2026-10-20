@@ -146,8 +146,10 @@
 </body>
 <script type="text/javascript">
     async function enviarDados(dados) {
+        //const endereco = 'http://localhost:8080/api/v1/tasks'
+        const endereco = 'https://tdspk-taskmanager.onrender.com/api/v1/tasks'
         try {
-            const resposta = await fetch('http://localhost:8080/api/v1/tasks', {
+            const resposta = await fetch(endereco, {
                          method: 'POST',
                          headers: {'Content-Type': 'application/json'},
                          body: JSON.stringify(dados)

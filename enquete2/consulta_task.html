@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastra Task</title>
+    <style>
+        /* Estilos gerais da página */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        /* Título da página */
+        h3 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Container do formulário */
+        #form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        /* Parágrafos como rótulos */
+        p {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        #bt_ok {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        #bt_ok:hover {
+            background-color: #2980b9;
+        }
+
+        #bt_ok:active {
+            transform: scale(0.98);
+        }
+
+        /* Caixa de Resultado */
+        #resultado {
+            margin-top: 25px;
+            width: 100%;
+            max-width: 950px;
+            color: #2ecc71;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: pre-wrap; /* Mantém a formatação do JSON */
+            box-sizing: border-box;
+            display: none; /* Fica oculto até ter conteúdo */
+        }
+
+
+
+        /* Mostra a caixa de resultado quando não estiver vazia */
+        #resultado:not(:empty) {
+            display: block;
+        }
+
+        /* Container para permitir rolagem lateral em telas pequenas (Responsividade) */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Estilo principal da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Remove espaços duplos entre as bordas */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            text-align: left;
+            background-color: #ffffff;
+        }
+
+        /* Estilização do Cabeçalho (Primeira Linha) */
+        thead tr {
+            background-color: #007bff; /* Cor azul moderna. Mude para a cor da sua marca */
+            color: #ffffff;
+            font-weight: 600;
+            padding: 14px 16px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Estilização das Células de Dados */
+        td {
+            padding: 12px 16px;
+            color: #333333;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Efeito Hover: Destaca a linha onde o mouse está passando */
+        tbody tr:hover {
+            background-color: #f1f3f5;
+            cursor: pointer;
+        }
+
+        /* Arredondamento das bordas superiores do cabeçalho */
+        tr:first-child {
+            border-top-left-radius: 8px;
+        }
+
+    </style>
+</head>
+<body>
+<h3>Consulta Task</h3>
+<form id="form">
+    <p>Status:
+        <select id="status">
+            <option value=""></option>
+            <option value="ABERTA">aberta</option>
+            <option value="ANDAMENTO">andamento</option>
+            <option value="FINALIZADA">finalizada</option>
+        </select>
+        <input type="button" name="ok" value="ok" id="bt_ok" />
+    </p>
+</form>
+<div id="resultado" class="table-container"></div>
+</body>
+<script type="text/javascript">
+    async function enviarDados(dados) {
+        try {
+            const resposta = await fetch('http://localhost:8080/api/v1/tasks/status/' + dados)
+            if (!resposta.ok) {
+                  throw new Error(`Erro na requisição: ${resposta.status}`)
+            }
+            const resultado = await resposta.json()
+            return resultado
+        } catch (erro) {
+            console.error('Falha ao enviar:', erro);
+            // Mostrar o erro na tela para melhor feedback
+            document.getElementById('resultado').innerHTML = 'Falha ao enviar: ' + erro.message;
+        }
+    }
+
+    const botao = document.getElementById("bt_ok")
+    botao.addEventListener('click', () => {
+        const dados = document.getElementById("status").value
+
+        const div = document.getElementById('resultado')
+        // Mostrar um status de carregamento
+        div.innerHTML = "Enviando dados...";
+
+        enviarDados(dados)
+            .then(resposta => {
+                if (resposta) {
+                    tabela_html = geraTabela(resposta)
+                    div.innerHTML = tabela_html;
+                }
+            });
+    })
+
+    function geraTabela(lista) {
+        let resp = "<table id='custom-table'><thead><tr><td>Data</td><td>Título</td><td>Prioridade</td><td>Status</td></tr></thead><tbody>"
+        for (let i = 0; i < lista.length; i++) {
+            let t = lista[i]
+            linha = `<tr><td>${t.data}</td><td>${t.titulo}</td><td>${t.prioridade}</td><td>${t.status}</td>`
+            resp = resp + linha
+        }
+        resp = resp + "</tbody></table>"
+        return resp
+    }
+</script>
+</html>

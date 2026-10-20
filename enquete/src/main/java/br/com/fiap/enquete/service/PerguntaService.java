@@ -3,11 +3,14 @@ package br.com.fiap.enquete.service;
 import br.com.fiap.enquete.model.Alternativa;
 import br.com.fiap.enquete.model.Pergunta;
 import br.com.fiap.enquete.model.TipoPergunta;
+import br.com.fiap.enquete.repository.PerguntaRepository;
 import org.springframework.boot.logging.log4j2.Log4J2LoggingSystem;
 
 import java.util.List;
 
 public class PerguntaService {
+
+    private PerguntaRepository perguntaRepositorio;
 
 
     public void cadastraPergunta(Pergunta pergunta, List<Alternativa> lista) throws Exception {
@@ -23,7 +26,6 @@ public class PerguntaService {
                 throw new RuntimeException("Pergunta do tipo aberta, requer lista de alternativas vazia");
         }
 
-        //TODO Criar os repositorys e o sql de criação das tabelas
         //Consulta perguntas para aplicacao da enquente (ou seja, com as respectivas alternativas)
         //Criar o Service de Resposta com as funcionalidades: gravar respostas e relatório resposta
 
@@ -32,7 +34,7 @@ public class PerguntaService {
             perguntaRepositorio.save(pergunta);
             for (Alternativa alt : lista) {
                 alt.setPergunta(pergunta);
-                alternativaRepositorio.save(alt);
+                perguntaRepositorio.saveAlternativa(alt);
             }
         } catch (Exception erro) {
             erro.printStackTrace();
