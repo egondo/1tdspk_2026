@@ -1,10 +1,13 @@
 import model.Trabalhador;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.time.LocalDate;
 
 public class Reflexao {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
 
         Class classe = Trabalhador.class;
 
@@ -17,6 +20,40 @@ public class Reflexao {
             Field f = atributos[i];
             System.out.println(f.getName() + " " + f.getType().toString());
         }
+
+        Trabalhador t = new Trabalhador(34234, 1, LocalDate.of(1980, 12, 15), "Kevin Arnold", 4500, "(11) 343242");
+
+        Trabalhador s = new Trabalhador(732423, 2, LocalDate.of(1982, 7, 15), "Winnie Cooper", 6500, "(11) 7282323");
+
+
+        //Quero transformar esses objetos em JSON:
+        Method[] metodos = classe.getDeclaredMethods();
+
+        StringBuffer sb = new StringBuffer("{");
+
+        for(Method m : metodos) {
+            System.out.println(m.getName() + " " + m.getReturnType().toString());
+            if (m.getName().startsWith("get")) {
+                sb.append("'");
+                sb.append(m.getName().toLowerCase().replace("get", ""));
+
+                String tipoRetorno = m.getReturnType().toString();
+                if (tipoRetorno.contains("String") || tipoRetorno.contains("Date")) {
+                    sb.append("': '");
+                    sb.append(m.invoke(t).toString());
+                    sb.append("', ");
+                }
+                else {
+                    sb.append("': ");
+                    sb.append(m.invoke(t).toString());
+                    sb.append(", ");
+                }
+            }
+        }
+        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("}");
+        System.out.println(sb);
     }
 
     public static String getCreateTable(Class classe) {
