@@ -5,13 +5,21 @@ import br.com.fiap.enquete.model.Pergunta;
 import br.com.fiap.enquete.model.TipoPergunta;
 import br.com.fiap.enquete.repository.PerguntaRepository;
 import org.springframework.boot.logging.log4j2.Log4J2LoggingSystem;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PerguntaService {
 
     private PerguntaRepository perguntaRepositorio;
+    private AlternativaRepository alternativaRepositorio;
 
+
+    public PerguntaService(PerguntaRepository perguntaRepositorio) {
+        this.perguntaRepositorio = perguntaRepositorio;
+    }
 
     public void cadastraPergunta(Pergunta pergunta, List<Alternativa> lista) throws Exception {
         //RN1 se lista de alternativas é nula implica pergunta do tipo ABERTA
@@ -32,9 +40,11 @@ public class PerguntaService {
         try {
             //gravar a resposta e com a resposta gravada, gravo as alternativas
             perguntaRepositorio.save(pergunta);
-            for (Alternativa alt : lista) {
-                alt.setPergunta(pergunta);
-                perguntaRepositorio.saveAlternativa(alt);
+            if (pergunta.getTipo() != TipoPergunta.ABERTA) {
+                for (Alternativa alt : lista) {
+                    alt.setPergunta(pergunta);
+                    perguntaRepositorio.saveAlternativa(alt);
+                }
             }
         } catch (Exception erro) {
             erro.printStackTrace();
